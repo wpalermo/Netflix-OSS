@@ -51,16 +51,11 @@ public class AppTest {
 		
 		Observable.fromArray(letters)
 				  .subscribeOn(Schedulers.io())
-				  .onErrorReturnItem("errouuuu")
+				  .doOnError(error -> erro(error))
 				  .doOnComplete(() -> completed(result))
-				  .subscribe(s -> result += Integer.parseInt(s));
-				
-	
+				  .subscribe(s -> exec(s),
+						  	 error -> erro(error));
 		
-		
-		
-		
-
 		assertTrue(result.equals("abcdefg_completed"));
 
 	}
@@ -69,8 +64,15 @@ public class AppTest {
 		System.out.println("Completadooo " + s);
 	}
 	
-	public void erro(Throwable s) {
-		System.out.println("ERROUUU " + s);
+	public void erro(Throwable msg) {
+		System.out.println("ERROUUU " + msg.getMessage());
+	}
+	
+	public void exec(String s) throws InterruptedException {
+		System.out.println(s);
+		if(s.equals("f"))
+			throw new NumberFormatException("blaa");
+		Thread.sleep(1000);
 	}
 	
 	/**
