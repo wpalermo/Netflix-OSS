@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -49,17 +47,19 @@ public class AppTest {
 		String[] letters = { "a", "b", "c", "d", "e", "f", "g" };
 		result = new String();
 
-		Observable<String> observable = Observable.fromArray(letters).observeOn(Schedulers.io());
-		observable.doOnNext(i -> {result += i; Thread.sleep(1000);});
-//				  .subscribe(s -> result += "sub", 
-//						  	 Throwable::printStackTrace,
-//						  	 () -> completed(result));
-					
+		
+		
+		Observable.fromArray(letters)
+				  .subscribeOn(Schedulers.io())
+				  .onErrorReturnItem("errouuuu")
+				  .doOnComplete(() -> completed(result))
+				  .subscribe(s -> result += Integer.parseInt(s));
+				
+	
 		
 		
 		
 		
-		observable.doOnComplete(() -> completed());
 
 		assertTrue(result.equals("abcdefg_completed"));
 
@@ -67,6 +67,10 @@ public class AppTest {
 	
 	public void completed(String s) {
 		System.out.println("Completadooo " + s);
+	}
+	
+	public void erro(Throwable s) {
+		System.out.println("ERROUUU " + s);
 	}
 	
 	/**
