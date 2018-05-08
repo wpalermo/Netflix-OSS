@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+Implementation-Title: hystrix
+Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: paler
+Implementation-Vendor-Id: com.wpalermo
 Build-Jdk: 1.8.0_161
+Implementation-URL: http://maven.apache.org
 Created-By: Maven Integration for Eclipse
 
